@@ -131,4 +131,10 @@ export class KeywordMarkElement extends HTMLElement {
   }
 }
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'keyword-mark': KeywordMarkElement;
+  }
+}
+
 customElements.define('keyword-mark', KeywordMarkElement);
