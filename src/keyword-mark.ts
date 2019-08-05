@@ -127,7 +127,15 @@ export class KeywordMarkElement extends HTMLElement {
       }
     }
 
-    this.shadowRoot.innerHTML = result.innerHTML;
+    this.shadowRoot.innerHTML = `
+      <style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      ${result.innerHTML}
+    `;
   }
 }
 
