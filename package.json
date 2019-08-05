@@ -2,7 +2,7 @@
   "name": "keyword-mark-element",
   "version": "0.0.1",
   "description": "Simple web component to mark keywords in a string",
-  "main": "lib/main.js",
+  "main": "lib/keyword-mark.js",
   "files": [
     "lib/!(test)"
   ],
