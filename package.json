@@ -1,0 +1,49 @@
+{
+  "name": "keyword-mark-element",
+  "version": "0.0.1",
+  "description": "Simple web component to mark keywords in a string",
+  "main": "lib/main.js",
+  "files": [
+    "lib/!(test)"
+  ],
+  "scripts": {
+    "clean": "rimraf ./lib",
+    "lint": "eslint \"src/**/*.ts\"",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "test": "mocha \"lib/test/**/*_test.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/43081j/keyword-mark-element.git"
+  },
+  "keywords": [
+    "web",
+    "components",
+    "mark",
+    "highlight"
+  ],
+  "author": "James Garbutt (https://github.com/43081j)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/43081j/keyword-mark-element/issues"
+  },
+  "homepage": "https://github.com/43081j/keyword-mark-element#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "chai": "^4.2.0",
+    "eslint": "^6.1.0",
+    "eslint-config-google": "^0.13.0",
+    "eslint-plugin-wc": "^1.2.0",
+    "mocha": "^6.2.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.5.3"
+  }
+}
