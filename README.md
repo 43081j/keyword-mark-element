@@ -2,6 +2,8 @@
 
 A simple web component to mark keywords in a string.
 
+[Demo](https://keyword-mark.glitch.me)
+
 ## Usage
 
 Install:
