@@ -60,7 +60,7 @@ export class KeywordMarkElement extends HTMLElement {
   public attributeChangedCallback(
     name: string,
     oldValue: string,
-    newValue: string
+    newValue: string,
   ): void {
     if (name === 'keywords') {
       if (newValue !== oldValue) {
@@ -106,8 +106,10 @@ export class KeywordMarkElement extends HTMLElement {
 
     const lowerText = text.toLowerCase();
     const terms = keywords.toLowerCase().split(/\s+/);
-    const splitPattern =
-      new RegExp(`${terms.map(escapeRegex).join('|')}`, 'gi');
+    const splitPattern = new RegExp(
+      `${terms.map(escapeRegex).join('|')}`,
+      'gi',
+    );
     const parts = text.split(splitPattern);
     const result = document.createElement('div');
 
