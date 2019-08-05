@@ -71,6 +71,8 @@ export class KeywordMarkElement extends HTMLElement {
 
   /** @inheritdoc */
   public connectedCallback(): void {
+    this._render();
+
     this.__observer = new MutationObserver(() => {
       this._render();
     });
