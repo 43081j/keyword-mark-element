@@ -11,7 +11,7 @@
     "lint": "eslint \"src/**/*.ts\"",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "mocha \"lib/test/**/*_test.js\"",
+    "test": "karma start --single-run",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "npm run build",
     "prepublishOnly": "npm run lint && npm run test"
