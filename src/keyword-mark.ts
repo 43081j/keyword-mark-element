@@ -77,7 +77,11 @@ export class KeywordMarkElement extends HTMLElement {
       this._render();
     });
 
-    this.__observer.observe(this, {childList: true});
+    this.__observer.observe(this, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
   }
 
   /** @inheritdoc */
