@@ -29,13 +29,6 @@
     "@typescript-eslint/explicit-function-return-type": ["error", {
       "allowExpressions": true
     }],
-    "@typescript-eslint/member-naming": [
-      "error",
-      {
-        "private": "^__",
-        "protected": "^_"
-      }
-    ],
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-unused-vars": "off"
