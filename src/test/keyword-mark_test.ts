@@ -104,7 +104,7 @@ describe('keyword-mark', () => {
   });
 
   it('should react to property changes', () => {
-    element.delimiter=':';
+    element.delimiter = ':';
     element.keywords = 'fo:ba';
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {

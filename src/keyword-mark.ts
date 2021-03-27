@@ -33,7 +33,7 @@ export class KeywordMarkElement extends HTMLElement {
    * Keywords to highlight
    */
   public get keywords(): string {
-    return this.getAttribute('keywords') || '';
+    return this.getAttribute('keywords') ?? '';
   }
 
   /**
@@ -48,7 +48,7 @@ export class KeywordMarkElement extends HTMLElement {
    * Delimiter for keywords
    */
   public get delimiter(): string {
-    return this.getAttribute('delimiter') || '';
+    return this.getAttribute('delimiter') ?? '';
   }
 
   /**
@@ -117,7 +117,7 @@ export class KeywordMarkElement extends HTMLElement {
 
     const text = this.textContent || '';
     const keywords = this.getAttribute('keywords');
-    const delimiter = this.getAttribute('delimiter') ?? /\s+/;
+    const delimiter = this.getAttribute('delimiter') || /\s+/;
 
     if (!keywords) {
       this.shadowRoot.textContent = text;
