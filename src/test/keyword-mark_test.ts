@@ -178,4 +178,15 @@ describe('keyword-mark', () => {
       </style>
       <mark>[baz]</mark> one <mark>(bar)</mark> two <mark>foo?</mark> three`);
   });
+
+  it('should handle overlapping keywords', () => {
+    element.keywords = 'fo foo';
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      <mark>foo</mark> BAR baz`);
+  });
 });

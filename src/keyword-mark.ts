@@ -125,7 +125,12 @@ export class KeywordMarkElement extends HTMLElement {
     }
 
     const lowerText = text.toLowerCase();
-    const terms = keywords.toLowerCase().split(delimiter);
+    const terms = keywords
+      .toLowerCase()
+      .split(delimiter)
+      .sort((a, b) => {
+        return b.length - a.length;
+      });
     const splitPattern = new RegExp(
       `${terms.map(escapeRegex).join('|')}`,
       'gi',
