@@ -23,7 +23,12 @@ describe('keyword-mark', () => {
   });
 
   it('should do nothing if no keywords', () => {
-    expect(element.innerHTML).to.equal('foo BAR baz');
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal('foo BAR baz');
+  });
+
+  it('should do nothing if no keywords with custom delimiter', () => {
+    element.delimiter = ',';
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal('foo BAR baz');
   });
 
   it('should highlight individual keywords', () => {
@@ -48,6 +53,18 @@ describe('keyword-mark', () => {
       <mark>foo</mark> <mark>BAR</mark> baz`);
   });
 
+  it('should highlight multiple keywords including spaces', () => {
+    element.delimiter = ',';
+    element.keywords = 'foo b,r baz';
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      <mark>foo B</mark>A<mark>R baz</mark>`);
+  });
+
   it('should react to child changes', async () => {
     element.keywords = 'foo';
     element.innerHTML = 'foo foo';
@@ -61,7 +78,7 @@ describe('keyword-mark', () => {
       <mark>foo</mark> <mark>foo</mark>`);
   });
 
-  it('should react to attribute changes', () => {
+  it('should react to keywords attribute changes', () => {
     element.setAttribute('keywords', 'ba');
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
@@ -84,7 +101,31 @@ describe('keyword-mark', () => {
     expect(element.innerHTML).to.equal('foo BAR baz');
   });
 
-  it('should react to property changes', () => {
+  it('should react to delimiter attribute changes', () => {
+    element.setAttribute('keywords', 'foo,abc:bar');
+    element.setAttribute('delimiter', ',');
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      <mark>foo</mark> BAR baz`);
+
+    element.setAttribute('delimiter', ':');
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      foo <mark>BAR</mark> baz`);
+
+    element.removeAttribute('keywords');
+    expect(element.innerHTML).to.equal('foo BAR baz');
+  });
+
+  it('should react to keywords property changes', () => {
     element.keywords = 'ba';
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
@@ -104,9 +145,31 @@ describe('keyword-mark', () => {
       <mark>foo</mark> BAR baz`);
   });
 
+  it('should react to delimiter property changes', () => {
+    element.keywords = 'foo,abc:bar';
+    element.delimiter = ',';
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      <mark>foo</mark> BAR baz`);
+
+    element.delimiter = ':';
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      foo <mark>BAR</mark> baz`);
+  });
+
   it('should handle special characters', () => {
+    element.delimiter = '$';
     element.innerText = '[baz] one (bar) two foo? three';
-    element.keywords = 'foo? (bar) [baz]';
+    element.keywords = 'foo?$(bar)$[baz]';
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
           color: var(--keyword-mark-color);

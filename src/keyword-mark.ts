@@ -26,14 +26,14 @@ const escapeRegex = (str: string): string =>
 export class KeywordMarkElement extends HTMLElement {
   /** @inheritdoc */
   public static get observedAttributes(): string[] {
-    return ['keywords'];
+    return ['keywords', 'delimiter'];
   }
 
   /**
    * Keywords to highlight
    */
   public get keywords(): string {
-    return this.getAttribute('keywords') || '';
+    return this.getAttribute('keywords') ?? '';
   }
 
   /**
@@ -42,6 +42,21 @@ export class KeywordMarkElement extends HTMLElement {
    */
   public set keywords(val: string) {
     this.setAttribute('keywords', val);
+  }
+
+  /**
+   * Delimiter for keywords
+   */
+  public get delimiter(): string {
+    return this.getAttribute('delimiter') ?? '';
+  }
+
+  /**
+   * Sets delimiter for keywords
+   * @param {string} val delimiter to set
+   */
+  public set delimiter(val: string) {
+    this.setAttribute('delimiter', val);
   }
 
   /**
@@ -62,7 +77,7 @@ export class KeywordMarkElement extends HTMLElement {
     oldValue: string,
     newValue: string,
   ): void {
-    if (name === 'keywords') {
+    if (name === 'keywords' || name === 'delimiter') {
       if (newValue !== oldValue) {
         this._render();
       }
@@ -102,6 +117,7 @@ export class KeywordMarkElement extends HTMLElement {
 
     const text = this.textContent || '';
     const keywords = this.getAttribute('keywords');
+    const delimiter = this.getAttribute('delimiter') || /\s+/;
 
     if (!keywords) {
       this.shadowRoot.textContent = text;
@@ -109,7 +125,7 @@ export class KeywordMarkElement extends HTMLElement {
     }
 
     const lowerText = text.toLowerCase();
-    const terms = keywords.toLowerCase().split(/\s+/);
+    const terms = keywords.toLowerCase().split(delimiter);
     const splitPattern = new RegExp(
       `${terms.map(escapeRegex).join('|')}`,
       'gi',
