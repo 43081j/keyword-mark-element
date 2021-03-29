@@ -16,6 +16,6 @@ module.exports = function(config) {
       }
     ],
     reporters: ['progress'],
-    browsers: []
+    browsers: ['ChromeHeadless']
   })
 }
