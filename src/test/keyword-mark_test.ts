@@ -23,12 +23,12 @@ describe('keyword-mark', () => {
   });
 
   it('should do nothing if no keywords', () => {
-    expect(element.innerHTML).to.equal('foo BAR baz');
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal('foo BAR baz');
   });
 
   it('should do nothing if no keywords with custom delimiter', () => {
     element.delimiter = ',';
-    expect(element.innerHTML).to.equal('foo BAR baz');
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal('foo BAR baz');
   });
 
   it('should highlight individual keywords', () => {
@@ -78,26 +78,48 @@ describe('keyword-mark', () => {
       <mark>foo</mark> <mark>foo</mark>`);
   });
 
-  it('should react to attribute changes', () => {
-    element.setAttribute('delimiter', ':');
-    element.setAttribute('keywords', 'fo:ba');
+  it('should react to keywords attribute changes', () => {
+    element.setAttribute('keywords', 'ba');
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
           color: var(--keyword-mark-color);
           background: var(--keyword-mark-background, yellow);
         }
       </style>
-      <mark>fo</mark>o <mark>BA</mark>R <mark>ba</mark>z`);
+      foo <mark>BA</mark>R <mark>ba</mark>z`);
 
-    element.setAttribute('delimiter', ',');
-    element.setAttribute('keywords', 'foo,bar');
+    element.setAttribute('keywords', 'foo');
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
           color: var(--keyword-mark-color);
           background: var(--keyword-mark-background, yellow);
         }
       </style>
-      <mark>foo</mark> <mark>BAR</mark> baz`);
+      <mark>foo</mark> BAR baz`);
+
+    element.removeAttribute('keywords');
+    expect(element.innerHTML).to.equal('foo BAR baz');
+  });
+
+  it('should react to delimiter attribute changes', () => {
+    element.setAttribute('delimiter', ',');
+    element.setAttribute('keywords', 'foo,abc:bar');
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      <mark>foo</mark> BAR baz`);
+
+    element.setAttribute('delimiter', ':');
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      foo <mark>BAR</mark> baz`);
 
     element.removeAttribute('keywords');
     expect(element.innerHTML).to.equal('foo BAR baz');
