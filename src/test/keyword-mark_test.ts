@@ -102,8 +102,8 @@ describe('keyword-mark', () => {
   });
 
   it('should react to delimiter attribute changes', () => {
-    element.setAttribute('delimiter', ',');
     element.setAttribute('keywords', 'foo,abc:bar');
+    element.setAttribute('delimiter', ',');
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
           color: var(--keyword-mark-color);
@@ -125,26 +125,45 @@ describe('keyword-mark', () => {
     expect(element.innerHTML).to.equal('foo BAR baz');
   });
 
-  it('should react to property changes', () => {
-    element.delimiter = ':';
-    element.keywords = 'fo:ba';
+  it('should react to keywords property changes', () => {
+    element.keywords = 'ba';
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
           color: var(--keyword-mark-color);
           background: var(--keyword-mark-background, yellow);
         }
       </style>
-      <mark>fo</mark>o <mark>BA</mark>R <mark>ba</mark>z`);
+      foo <mark>BA</mark>R <mark>ba</mark>z`);
 
-    element.delimiter = ',';
-    element.keywords = 'foo,bar';
+    element.keywords = 'foo';
     expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
         mark {
           color: var(--keyword-mark-color);
           background: var(--keyword-mark-background, yellow);
         }
       </style>
-      <mark>foo</mark> <mark>BAR</mark> baz`);
+      <mark>foo</mark> BAR baz`);
+  });
+
+  it('should react to delimiter property changes', () => {
+    element.keywords = 'foo,abc:bar';
+    element.delimiter = ',';
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      <mark>foo</mark> BAR baz`);
+
+    element.delimiter = ':';
+    expect(element.shadowRoot!.innerHTML.trim()).to.equal(`<style>
+        mark {
+          color: var(--keyword-mark-color);
+          background: var(--keyword-mark-background, yellow);
+        }
+      </style>
+      foo <mark>BAR</mark> baz`);
   });
 
   it('should handle special characters', () => {
